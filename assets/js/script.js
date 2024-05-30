@@ -1,5 +1,11 @@
 
 
+document.getElementById('home').style.display = 'none';
+document.getElementById('product').style.display = 'none';
+document.getElementById('shoplist').style.display = 'none';
+document.getElementById('nav_user').style.display = 'none';
+
+
 function mostrar(element){
     // Mostrar la pantalla de carga
     document.getElementById('loading').style.display = 'flex';
