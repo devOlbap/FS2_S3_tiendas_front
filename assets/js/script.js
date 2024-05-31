@@ -1,47 +1,147 @@
 
+//Clase Usuario
+class Usuario {
+    constructor(
+        nombres, 
+        apellidos,
+        correo, 
+        id_rol,
+        username,
+        pass,
+        fecha_nac,
+        calle,
+        numeracion,
+        comuna
 
-document.getElementById('home').style.display = 'none';
-document.getElementById('product').style.display = 'none';
-document.getElementById('shoplist').style.display = 'none';
-document.getElementById('nav_user').style.display = 'none';
+    ) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.username = username;
+        this.correo = correo;
+        this.id_rol = id_rol;
+        this.pass = pass;
+        this.fecha_nacimiento = fecha_nac;
+        this.calle = calle;
+        this.numeracion = numeracion;
+        this.comuna = comuna;
+    }
+}
+
+//clase Rol
+class Rol {
+    constructor(id,descripcion){
+        this.id = id;
+        this.descripcion = descripcion;
+    }
+}
+
+//usuarios.push(usuario);
+//usuarios.forEach(usuario => { console.log(usuario.username)})
+
+
+
+
+
+$(document).ready(()=>{
+
+    let usuarios = [];
+
+    let admin = new Usuario(
+        'Pablo F.', 
+        'Garrido Cid',
+        'pa.garrido.cid@gmail.com', 
+        1,
+        'admin',
+        'Pass1010!',
+        '04-06-1999',
+        '',
+        '',
+        ''
+    );
+    let usuario = new Usuario(
+        'Javier', 
+        'Gonzalez',
+        'j.gonzalez@gmail.com', 
+        2,
+        'javierito',
+        'Javierito123',
+        '01-01-2000',
+        'El manzano',
+        '338',
+        'Las Condes'
+    );
+    let cliente = new Usuario(
+        'Paulina', 
+        'Pinto',
+        'p.pinto@gmail.com', 
+        3,
+        'pauli',
+        'Pauli123',
+        '01-01-2000',
+        '',
+        '',
+        ''
+    );
+
+    usuarios.push(admin);
+    usuarios.push(usuario);
+    usuarios.push(cliente);
+
+
+    usuarios.forEach(usuario=>{
+        console.log(usuario.nombres+' '+usuario.apellidos);
+    })
+
+
+    $('#home').css('display', 'none');
+    $('#product').css('display', 'none');
+    $('#shoplist').css('display', 'none');
+    $('#nav_user').css('display', 'none');
+})
+
+
+
+
+
+
 
 
 function mostrar(element){
     // Mostrar la pantalla de carga
-    document.getElementById('loading').style.display = 'flex';
+    $('#loading').css('display', 'flex');
 
     // Simular un retardo para la carga (por ejemplo, 1 segundo)
     setTimeout(function() {
         // Ocultar todos los artículos
-        document.getElementById('home_div').style.display = 'none';
-        document.getElementById('products_div').style.display = 'none';
-        document.getElementById('user_form_div').style.display = 'none';
-        document.getElementById('carrito_div').style.display = 'none';
-        document.getElementById('login_div').style.display = 'none';
+        $('#home_div').css('display', 'none');
+        $('#products_div').css('display', 'none');
+        $('#user_form_div').css('display', 'none');
+        $('#carrito_div').css('display', 'none');
+        $('#login_div').css('display', 'none');
 
 
         
         // Mostrar el artículo correspondiente
         switch (element.id) {
             case 'home':
-                document.getElementById('home_div').style.display = 'block';
+                $('#home_div').css('display','block');
                 break;
             case 'product':
-                document.getElementById('products_div').style.display = 'block';
+                $('#products_div').css('display','block');
                 break;
             case 'contact':
-                document.getElementById('user_form_div').style.display = 'block';
+                $('#user_form_div').css('display','block');
                 break;
             case 'shoplist':
-                document.getElementById('carrito_div').style.display = 'block';
+                $('#carrito_div').css('display','block');
                 break;
             case 'login':
-                document.getElementById('login_div').style.display = 'block';
+                $('#login_div').css('display','block');
                 break;
         }
 
         // Ocultar la pantalla de carga
-        document.getElementById('loading').style.display = 'none';
+        $('#loading').css('display', 'none');
     }, 1000); // 1000 milisegundos = 1 segundo
 
 
@@ -111,16 +211,38 @@ function validatePassword(password) {
 
 function limpiarFormulario() {
     // Limpiar todos los campos del formulario
-    document.getElementById("nombres").value = "";
-    document.getElementById("apellidos").value = "";
-    document.getElementById("username").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("pass").value = "";
-    document.getElementById("repet_pass").value = "";
-    document.getElementById("fecha_nacimiento").value = "";
-    document.getElementById("direccion").value = "";
-    document.getElementById("numeracion").value = "";
-    document.getElementById("comuna").value = "";
+    $("#nombres").val('');
+    $("#apellidos").val('');
+    $("#username").val('');
+    $("#email").val('');
+    $("#pass").val('');
+    $("#repet_pass").val('');
+    $("#fecha_nacimiento").val('');
+    $("#direccion").val('');
+    $("#numeracion").val('');
+    $("#comuna").val('');
 }
+
+
+
+function accederUsuario(){
+    let username = document.getElementById('username_login').value;
+    let pass = document.getElementById('pass_login').value;
+
+    if(!username || !pass){
+        let msje = !username?'un nombre de usuario' : 'una contraseña';
+        alert('Error: Falta indicar '+msje+'.');
+        return
+    }
+    /**
+     * tenemos que preguntar si el username existe en nuestro array de usuarios.
+     */
+
+}
+
+
+
+
+
 
 
