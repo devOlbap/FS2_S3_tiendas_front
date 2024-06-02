@@ -38,65 +38,89 @@ class Rol {
 //usuarios.push(usuario);
 //usuarios.forEach(usuario => { console.log(usuario.username)})
 
+var usuarios = [];
 
+let admin = new Usuario(
+    'Pablo', 
+    'Garrido Cid',
+    'pa.garrido.cid@gmail.com', 
+    1,
+    'admin',
+    // 'Pass1010!',
+    '123',
+    '04-06-1999',
+    '',
+    '',
+    ''
+);
+let usuario = new Usuario(
+    'Javier', 
+    'Gonzalez',
+    'j.gonzalez@gmail.com', 
+    2,
+    'javierito',
+    'Javierito123',
+    '01-01-2000',
+    '',
+    '',
+    ''
+);
+let cliente = new Usuario(
+    'Paulina', 
+    'Pinto',
+    'p.pinto@gmail.com', 
+    3,
+    'pauli',
+    'Pauli123',
+    '01-01-2000',
+    'El manzano',
+    '338',
+    'Las Condes'
+
+);
+
+usuarios.push(admin);
+usuarios.push(usuario);
+usuarios.push(cliente);
+
+
+var roles = [];
+
+let rol_adm = new Rol(1,'Administrador');
+let rol_usr = new Rol(2,'Usuario');
+let rol_cli = new Rol(3,'Cliente');
+
+roles.push(rol_adm);
+roles.push(rol_usr);
+roles.push(rol_cli);
+
+
+var usuario_log = new Usuario();
 
 
 
 $(document).ready(()=>{
 
-    let usuarios = [];
-
-    let admin = new Usuario(
-        'Pablo F.', 
-        'Garrido Cid',
-        'pa.garrido.cid@gmail.com', 
-        1,
-        'admin',
-        'Pass1010!',
-        '04-06-1999',
-        '',
-        '',
-        ''
-    );
-    let usuario = new Usuario(
-        'Javier', 
-        'Gonzalez',
-        'j.gonzalez@gmail.com', 
-        2,
-        'javierito',
-        'Javierito123',
-        '01-01-2000',
-        'El manzano',
-        '338',
-        'Las Condes'
-    );
-    let cliente = new Usuario(
-        'Paulina', 
-        'Pinto',
-        'p.pinto@gmail.com', 
-        3,
-        'pauli',
-        'Pauli123',
-        '01-01-2000',
-        '',
-        '',
-        ''
-    );
-
-    usuarios.push(admin);
-    usuarios.push(usuario);
-    usuarios.push(cliente);
-
-
-    usuarios.forEach(usuario=>{
-        console.log(usuario.nombres+' '+usuario.apellidos);
-    })
-
-
-    $('#home').css('display', 'none');
+    // usuarios.forEach(usuario=>{
+    //     console.log(usuario.nombres+' '+usuario.apellidos+' ROL:'+roles.find(rol => rol.id == usuario.id_rol).descripcion);
+    // })
+    // $('#home').css('display', 'none');
     $('#product').css('display', 'none');
     $('#shoplist').css('display', 'none');
     $('#nav_user').css('display', 'none');
+
+    $("#logout").click(()=>{
+        // usuario_log = new Usuario();
+        // mostrar(document.getElementById('home'));
+        // mostrar_ocultarMenu('none');
+        // mostrar_ocultarLogin('');
+        // $("#msje_bienvenido").empty().text('Bienvenido a GameCity App');
+        location.reload();
+
+    })
+
+
+
 })
 
 
@@ -226,8 +250,8 @@ function limpiarFormulario() {
 
 
 function accederUsuario(){
-    let username = document.getElementById('username_login').value;
-    let pass = document.getElementById('pass_login').value;
+    let username = $('#username_login').val().trim();
+    let pass = $('#pass_login').val().trim();
 
     if(!username || !pass){
         let msje = !username?'un nombre de usuario' : 'una contraseña';
@@ -237,10 +261,53 @@ function accederUsuario(){
     /**
      * tenemos que preguntar si el username existe en nuestro array de usuarios.
      */
+    let usuario = usuarios.find(usuario => usuario.username == username);
+
+    if(!usuario){
+        console.log('no se encontro usuario');
+        return
+    }
+        
+    if(usuario.pass == pass){
+        console.log('login')
+        usuario_log = usuario;
+        mostrar_ocultarMenu('');
+        mostrar(document.getElementById('home'));
+        mostrar_ocultarLogin('none');
+        $("#username_login").val('');
+        $("#pass_login").val('');
+
+        $("#msje_bienvenido").empty().text('Bienvenid@ '+usuario.nombres+' '+usuario.apellidos+'!')
+
+        let btn_ofertas = $("<button>")
+                                .addClass('btn btn-outline-info')
+                                .attr('id','btn_mostrar_ofertas')
+                                .text('Ver ofertas')
+                                // .click("mostrar(document.getElementById('product'))")
+
+        $("#msje_registrate").empty().append('Puedes ver tus ofertas como cliente: ').append(btn_ofertas);
+
+        $("#btn_mostrar_ofertas").click(()=>{
+            mostrar(document.getElementById('product'));
+        })
+
+        $("#userDropdown").html(usuario.nombres+' '+usuario.apellidos);
+
+        return
+    }
+    console.log('error_pass')
+
 
 }
-
-
+function mostrar_ocultarLogin(estilo){
+    $('#login').css('display', estilo);
+    $('#contact').css('display', estilo);
+}
+function mostrar_ocultarMenu(estilo){
+    $('#product').css('display', estilo);
+    $('#shoplist').css('display', estilo);
+    $('#nav_user').css('display', estilo);
+}
 
 
 

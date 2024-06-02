@@ -1,164 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiendas</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Brand</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="inicio" onclick="mostrar(this)" >Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="about" onclick="mostrar(this)" >Acerca de</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="products" onclick="mostrar(this)" >Productos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="register" onclick="mostrar(this)" >Registrate</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        
-                        Usuario
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Configuración de perfil</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Cerrar sesión</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <main>
-        <article id="home_div">
-            <div>
-                <h1>Bienvenido a GameCity App</h1>
-                <p>¡Estamos encantados de tenerte aquí!</p>
-            </div>
-        </article>
-        <article id="products_div" style="display: none;">
-            <h2>Productos </h2>
-            <div class="product-gallery">
-                <div class="product-item">
-                    <img src="assets/img/TG1061356_512x512.webp" alt="Producto 1">
-                    <h3>Producto 1</h3>
-                    <p>Descripción del producto 1.</p>
-                    <button>Comprar</button>
-                </div>
-                <div class="product-item">
-                    <img src="assets/img/TG1061356_512x512.webp" alt="Producto 2">
-                    <h3>Producto 2</h3>
-                    <p>Descripción del producto 2.</p>
-                    <button>Comprar</button>
-                </div>
-                <div class="product-item">
-                    <img src="assets/img/TG1061356_512x512.webp" alt="Producto 3">
-                    <h3>Producto 3</h3>
-                    <p>Descripción del producto 3.</p>
-                    <button>Comprar</button>
-                </div>
-                <div class="product-item">
-                    <img src="assets/img/TG1061356_512x512.webp" alt="Producto 4">
-                    <h3>Producto 4</h3>
-                    <p>Descripción del producto 4.</p>
-                    <button>Comprar</button>
-                </div>
-
-            </div>
-        </article>
-        
-        <article id="user_form_div" style="display: none;">
-            <h2>Registrate!</h2>
-            <div class="contact-form">
-                <h2>Formulario de Registro</h2>
-
-
-                <form class="row g-3">
-                    <div class="col-md-6">
-                        <label for="nombres" class="form-label">Nombres</label>
-                        <input type="text" class="form-control" id="nombres">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="apellidos" class="form-label">Apellidos</label>
-                        <input type="text" class="form-control" id="apellidos">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="username" class="form-label">Nombre de Usuario</label>
-                        <input type="text" class="form-control" id="username">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="pass" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="pass">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="repet_pass" class="form-label">Repite Contraseña</label>
-                        <input type="password" class="form-control" id="repet_pass">
-                    </div>
-                    <div class="col-12">
-                        <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
-                        <input type="date" class="form-control" id="fecha_nacimiento" >
-                    </div>
-                   
-                    <hr>
-                    <h4>Dirección de despacho</h4><p>(Opcional)</p>
-                    <div class="col-md-9">
-                        <label for="direccion" class="form-label">Calle</label>
-                        <input type="text" class="form-control" id="direccion" >
-                    </div>
-                    <div class="col-md-3">
-                        <label for="numeracion" class="form-label">Numeracion</label>
-                        <input type="text" class="form-control" id="numeracion" >
-                    </div>
-                    <div class="col-md-9">
-                        <label for="comuna" class="form-label">Comuna</label>
-                        <select id="comuna" class="form-control" >
-                            <option value="" selected disabled>...</option>
-                            <option value="santiago">Santiago</option>
-                        </select>
-                    </div>
-                    <hr>
-                    <div class="col-6">
-                        <button type="button" onclick="registrarUsuario()" class="btn btn-success">Registrar</button>
-                    </div>
-                    <div class="col-6">
-                        <button onclick="limpiarFormulario()" class="btn btn-outline-warning" >Limpiar Formulario</button>
-                    </div>
-                  </form>
-            </div>
-        </article>
-    <footer>
-        <p>Derechos de autor &copy; 2024 MercadoApp</p>
-    </footer>
-    <div id="loading">
-        <div class="spinner"></div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="assets/js/script.js"></script>
-
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -169,7 +8,7 @@
     
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>NosotrosPlay</title>
+    <title>GameStore</title>
 </head>
 <body>
     <header>
@@ -183,30 +22,32 @@
         </nav> -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="#">NosotrosPlay</a>
+                <a class="navbar-brand" href="#" >
+                    <img src="assets/img/log.png" alt="logo_png">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                 
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="login"  href="#">Login</a></li>
                         <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="home"  href="#">Inicio</a></li>
                         <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="product" href="#">Productos</a></li>
-                        <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="contact" href="#">Registrar</a></li>
                         <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="shoplist" href="#">Carrito</a></li>
+                        <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="login"  href="#">Login</a></li>
+                        <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="contact" href="#">Registrar</a></li>
+
 
                     </ul>
                     <ul id="nav_user" class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 
-                                Usuario
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">Configuración de perfil</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Cerrar sesión</a>
+                                <a class="dropdown-item" href="#" id="logout">Cerrar sesión</a>
                             </div>
                         </li>
                     </ul>
@@ -219,35 +60,43 @@
     <main>
         <article class="container"  id="home_div">
             <div>
-                <h1>Bienvenido a GameCity App</h1>
-                <p>¡Estamos encantados de tenerte aquí!</p>
+                <h1 id="msje_bienvenido">Bienvenido a GameCity App</h1>
+                <h5><b>¡Estamos encantados de tenerte aquí!</b></h5>
+                <p id="msje_registrate">Registrate como cliente o inicia sesión y podrás obtener acceso a nuestra amplia gama de productos y servicios. </p>
+
             </div>
         </article>
         <article id="products_div" class="container" style="display: none;">
             <h2>Productos </h2>
             <div class="product-gallery">
                 <div class="product-item">
-                    <img src="assets/img/TG1061356_512x512.webp" alt="Producto 1">
-                    <h3>Producto 1</h3>
-                    <p>Descripción del producto 1.</p>
+                    <img src="assets/img/carcasa_iphone_6.jpg" alt="Producto 1">
+                    <h3>Iphone 6 Case</h3>
+                    <p>"phone case" para teléfono iphone</p>
+                    <p>$ 5.000.-</p>
+                    <button>Comprar</button>
+                </div>
+                
+                <div class="product-item">
+                    <img src="assets/img/thanos_imp_3d.jpg" alt="Producto 3">
+                    <h3>Thanos</h3>
+                    <p>Articulo impreso en 3D con filamento ABS.</p>
+                    <p>$ 9.990.-</p>
+                    <button>Comprar</button>
+                </div>
+                
+                <div class="product-item">
+                    <img src="assets/img/taladro.webp" alt="Producto 4">
+                    <h3>Taladro</h3>
+                    <p>Taladro percutor uso Hogar. Garantía 6 meses</p>
+                    <p>$ 2.990.-</p>
                     <button>Comprar</button>
                 </div>
                 <div class="product-item">
-                    <img src="assets/img/TG1061356_512x512.webp" alt="Producto 2">
-                    <h3>Producto 2</h3>
-                    <p>Descripción del producto 2.</p>
-                    <button>Comprar</button>
-                </div>
-                <div class="product-item">
-                    <img src="assets/img/TG1061356_512x512.webp" alt="Producto 3">
-                    <h3>Producto 3</h3>
-                    <p>Descripción del producto 3.</p>
-                    <button>Comprar</button>
-                </div>
-                <div class="product-item">
-                    <img src="assets/img/TG1061356_512x512.webp" alt="Producto 4">
-                    <h3>Producto 4</h3>
-                    <p>Descripción del producto 4.</p>
+                    <img src="assets/img/soporte_telefono.jpg" alt="Producto 2">
+                    <h3>Soporte teléfono</h3>
+                    <p>Soporte impreso en 3D con filamento ABS.</p>
+                    <p>$ 14.990.-</p>
                     <button>Comprar</button>
                 </div>
                 <!-- Añade más productos según sea necesario -->
