@@ -272,6 +272,68 @@ function obtenerProductos(){
 }
 
 
+function obtenerProductosAdm(){
+    const $tableBody = $("#productos_adm_table tbody");
+
+    $tableBody.empty(); // Limpiar cualquier fila existente
+
+    if(productos.length >0){
+
+        productos.forEach(producto => {
+        
+            let btn = '<button onclick="console.log('+producto.id+')" class="btn btn-outline-success">Ver</button> ';
+    
+            const $row = $(`
+                <tr>
+                    <td>${producto.id}</td>
+                    <td>${producto.nombre}</td>
+                    <td>${producto.descripcion}</td>
+                    <td>${producto.valor}</td>
+                    <td>${btn}</td>
+
+    
+                </tr>
+            `);
+            $tableBody.append($row);
+        });
+        return
+    }
+
+}
+
+function obtenerUsuariosAdm(){
+    const $tableBody = $("#usuarios_table tbody");
+
+    $tableBody.empty(); // Limpiar cualquier fila existente
+
+    if(usuarios.length >0){
+
+        usuarios.forEach(user => {
+
+            let rol = roles.find(rol => rol.id == user.id_rol)
+        
+            let btn = '<button onclick="console.log('+user.id+')" class="btn btn-outline-success">Ver</button> ';
+    
+            const $row = $(`
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.nombres} ${user.apellidos}</td>
+                    <td>${rol.descripcion}</td>
+                    <td>${user.username}</td>
+                    <td>${user.correo}</td>
+                    <td>${btn}</td>
+
+    
+                </tr>
+            `);
+            $tableBody.append($row);
+        });
+        return
+    }
+
+}
+
+
 function addToCart(elemento){
     let prod = productos.find(producto => producto.id == elemento.id)
     carrito.push(prod);
@@ -319,9 +381,11 @@ function mostrar(element){
                 break;
             case 'productos':
                 $("#productos_div").css('display','block');
+                obtenerProductosAdm();
                 break;
             case 'usuarios':
                 $("#usuarios_div").css('display','block');
+                obtenerUsuariosAdm();
                 break;
         }
 
@@ -331,20 +395,70 @@ function mostrar(element){
 
 
 }
+function registrarProducto() {
 
 
-function registrarUsuario() {
     // Obtener los valores de los campos del formulario
-    let nombres = $("#nombres").val().trim();
-    let apellidos = $("#apellidos").val().trim();
-    let username = $("#username").val().trim();
-    let email = $("#email").val().trim();
-    let password = $("#pass").val().trim();
-    let repetirPassword = $("#repet_pass").val().trim();
-    let fechaNacimiento = $("#fecha_nacimiento").val().trim();
-    let direccion = $("#direccion").val().trim();
-    let numeracion = $("#numeracion").val().trim();
-    let comuna = $("#comuna").val();
+    let nombre = $("#nombre_producto").val().trim();
+    let descripcion = $("#descripcion").val().trim();
+    let valor = $("#valor").val().trim();
+    let img = $("#img_path").val().trim();
+
+
+    // Realizar las validaciones
+    if (nombre === "" || descripcion === "" || valor === "" || img ==="") {
+        let msje = !nombre ? 'el nombre':(!descripcion?'la descripcion':(!valor?'el valor':'la imagen'));
+        alert("Debe ingresar "+msje+' del producto.');
+        return;
+    }
+  
+    let nuevo_producto = new Producto(
+        productos.length+1,
+        nombre,
+        descripcion,
+        valor,
+        img
+    )
+
+    productos.push(nuevo_producto);
+
+    alert("Producto: "+nuevo_producto.nombre+". registrado correctamente.");
+    limpiarFormularioProducto();
+    mostrar(document.getElementById('productos'));
+}
+
+
+function registrarUsuario(admin) {
+
+    let input ='';
+    let most_funct = document.getElementById('login');
+    let limp_form = false;
+
+    if(admin==1){
+        limp_form =1;
+        input = '_input';
+        most_funct = document.getElementById('usuarios')
+    }
+
+    
+
+    // Obtener los valores de los campos del formulario
+    let nombres = $("#nombres"+input).val().trim();
+    let apellidos = $("#apellidos"+input).val().trim();
+    let username = $("#username"+input).val().trim();
+    let email = $("#email"+input).val().trim();
+    let password = $("#pass"+input).val().trim();
+    let repetirPassword = $("#repet_pass"+input).val().trim();
+    let fechaNacimiento = $("#fecha_nacimiento"+input).val().trim();
+    let direccion = $("#direccion"+input).val().trim();
+    let numeracion = $("#numeracion"+input).val().trim();
+    let comuna = $("#comuna"+input).val();
+
+    let rol_id = 3;
+
+    if($("#rol_select").val() != 99){
+        rol_id = $("#rol_select").val();
+    }
 
     // Realizar las validaciones
     if (nombres === "" || apellidos === "" || username === "" || email === "" || password === "" || repetirPassword === "" || fechaNacimiento === "") {
@@ -385,7 +499,7 @@ function registrarUsuario() {
         nombres,
         apellidos,
         email,
-        3,
+        rol_id,
         username,
         password,
         fechaNacimiento,
@@ -397,32 +511,8 @@ function registrarUsuario() {
     usuarios.push(nuevo_usuario);
 
     alert("Usuario: "+nuevo_usuario.nombres+' '+nuevo_usuario.apellidos+". registrado correctamente.");
-    limpiarFormulario();
-    mostrar(document.getElementById('login'));
-}
-function validateEmail(email) {
-    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-function validatePassword(password) {
-    // Utilizamos una expresión regular para validar la contraseña
-    let passwordRegex = /^(?=.*[A-Z])(?=.*\d).{6,18}$/;
-    return passwordRegex.test(password);
-}
-
-function limpiarFormulario() {
-    // Limpiar todos los campos del formulario
-    $("#nombres").val('');
-    $("#apellidos").val('');
-    $("#username").val('');
-    $("#email").val('');
-    $("#pass").val('');
-    $("#repet_pass").val('');
-    $("#fecha_nacimiento").val('');
-    $("#direccion").val('');
-    $("#numeracion").val('');
-    $("#comuna").val('');
+    limpiarFormulario(limp_form);
+    mostrar(most_funct);
 }
 
 
@@ -461,8 +551,12 @@ function accederUsuario(){
 
         if(rol.id == 1|| rol.id == 2){
             $("#admin_dropdown").css('display','');
+            $("#usuarios").css('display','');
         }
         
+        if(rol.id == 2){
+            $("#usuarios").css('display','none');
+        }
 
         let btn_ofertas = $("<button>")
                                 .addClass('btn btn-outline-info')
@@ -496,6 +590,50 @@ function mostrar_ocultarMenu(estilo){
     $('#nav_user').css('display', estilo);
 
 }
+
+function validateEmail(email) {
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function validatePassword(password) {
+    // Utilizamos una expresión regular para validar la contraseña
+    let passwordRegex = /^(?=.*[A-Z])(?=.*\d).{6,18}$/;
+    return passwordRegex.test(password);
+}
+
+function limpiarFormulario(admin) {
+
+    let input = '';
+
+    if(admin==1){
+        input = '_input';
+    }
+
+
+    // Limpiar todos los campos del formulario
+    $("#nombres"+input).val('');
+    $("#apellidos"+input).val('');
+    $("#username"+input).val('');
+    $("#email"+input).val('');
+    $("#pass"+input).val('');
+    $("#repet_pass"+input).val('');
+    $("#fecha_nacimiento"+input).val('');
+    $("#direccion"+input).val('');
+    $("#numeracion"+input).val('');
+    $("#comuna"+input).val('');
+}
+function limpiarFormularioProducto() {
+
+
+    // Limpiar todos los campos del formulario
+    $("#nombre_producto").val('');
+    $("#descripcion").val('');
+    $("#valor").val('');
+    $("#img_path").val('');
+
+}
+
 
 
 
