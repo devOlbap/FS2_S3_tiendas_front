@@ -28,7 +28,7 @@
         </nav> -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="#" >
+                <a class="navbar-brand" href="#" onclick="mostrar(document.getElementById('home'))" >
                     <img src="assets/img/log.png" alt="logo_png">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,27 +47,7 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="admin_dropdown">
                                 <a class="dropdown-item disabled" href="#" >Mantenedores</a>
                                 <div class="dropdown-divider"></div>
-                                
-                                <!-- <a class="nav-link dropdown-toggle" href="#" id="user_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Usuario
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user_dropdown">
-                                    <a class="dropdown-item" href="#"  id="usuarios" >Agregar Usuario</a>
-                                    <a class="dropdown-item" href="#"  id="usuarios" >Listar Usuario</a>
-                                </div>
-                                <a class="nav-link dropdown-toggle" href="#" id="producto_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Producto
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="producto_dropdown">
-                                    <a class="dropdown-item" href="#"  id="usuarios" >Agregar Producto</a>
-                                    <a class="dropdown-item" href="#"  id="usuarios" >Listar Producto</a>
-                                </div> -->
-
-
-
-
                                 <a class="dropdown-item" href="#" onclick="mostrar(this)" id="productos" >Producto</a>
-                                
                                 <a class="dropdown-item" href="#" onclick="mostrar(this)" id="usuarios" >Usuario</a>
                                 
                             </div>
@@ -120,14 +100,49 @@
             </div>
         </article>
         <article id="productos_div" class="container" style="display: none;">
+            <div class="card ">
+                <div class="card-header">
+                    <h2 class="text-center">Formulario de Registro</h2>
+
+                </div>
+                <form class="row g-3" >
+                    <div class="col-md-6">
+                        <label for="nombre_producto" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre_producto">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="valor" class="form-label">Valor</label>
+                        <input type="text" class="form-control" id="valor">
+                    </div>
+                    <div class="col-md-9">
+                        <label for="img_path" class="form-label">Ruta img</label>
+                        <input type="text" class="form-control" id="img_path">
+                    </div>
+                    
+                </form>
+                <div class="card-footer">
+                    <div class="col-6">
+                        <button type="button" onclick="registrarProducto()" class="btn btn-success">Registrar</button>
+                    </div>
+                    <div class="col-6">
+                        <button onclick="limpiarFormularioProducto()" class="btn btn-outline-warning" >Limpiar Formulario</button>
+                    </div>
+                </div>
+            </div>
+            <br><hr>
             <div class="card">
                 <div class="card-header">
                     <h2>Productos</h2>
-                </div>
-                <div class="card-body">
+                </div> 
+                <div class="card-body table-responsive">
                     <table id="productos_adm_table" class="display" style="width:100%">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Nombre</th>
                                 <th>Descripción</th>
                                 <th>Precio</th>
@@ -147,18 +162,96 @@
             </div>
         </article>
         <article id="usuarios_div" class="container" style="display: none;">
+
+            <div class="card ">
+                <div class="card-header">
+                    <h2 class="text-center">Formulario de Registro</h2>
+
+                </div>
+                <form class="row g-3" >
+                    <div class="col-md-6">
+                        <label for="nombres" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" id="nombres_input">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="apellidos" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="apellidos_input">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="username" class="form-label">Nombre de Usuario</label>
+                        <input type="text" class="form-control" id="username_input">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="username" class="form-label">ROL</label>
+                        <select class="form-control" name="rol_select" id="rol_select">
+                            <option value="99" selected disabled>...</option>
+                            <option value="1">Administrador</option>
+                            <option value="2">Usuario</option>
+                            <option value="3">Cliente</option>
+
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email_input">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="pass" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="pass_input">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="repet_pass" class="form-label">Repite Contraseña</label>
+                        <input type="password" class="form-control" id="repet_pass_input">
+                    </div>
+                    <div class="col-12">
+                        <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="fecha_nacimiento_input" >
+                    </div>
+                    <div class=" container card-header">
+                        <h4>Dirección de despacho</h4><p>(Opcional)</p>
+                        
+                    </div>
+                    <div class="col-md-9">
+                        <label for="direccion" class="form-label">Calle</label>
+                        <input type="text" class="form-control" id="direccion_input" >
+                    </div>
+                    <div class="col-md-3">
+                        <label for="numeracion" class="form-label">Numeracion</label>
+                        <input type="text" class="form-control" id="numeracion_input" >
+                    </div>
+                    <div class="col-md-9">
+                        <label for="comuna" class="form-label">Comuna</label>
+                        <select id="comuna_input" class="form-control" >
+                            <option value="" selected disabled>...</option>
+                            <option value="santiago">Santiago</option>
+                        </select>
+                    </div>
+                </form>
+                <div class="card-footer">
+                    <div class="col-6">
+                        <button type="button" onclick="registrarUsuario(1)" class="btn btn-success">Registrar</button>
+                    </div>
+                    <div class="col-6">
+                        <button onclick="limpiarFormulario(1)" class="btn btn-outline-warning" >Limpiar Formulario</button>
+                    </div>
+                </div>
+            </div>
+            <br><hr>
             <div class="card">
                 <div class="card-header">
                     <h2>Usuarios</h2>
                 </div>
-                <div class="card-body">
-                    <table id="usuarios_table" class="display" style="width:100%">
+                <div class="card-body table-responsive">
+                    <table id="usuarios_table" class="display table-striped" style="width:100%">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Precio</th>
+                                <th>ROL</th>
+                                <th>Nombre de Usuario</th>
+                                <th>Correo</th>
                                 <th>Accion</th>
+
 
                             </tr>
                         </thead>
@@ -256,7 +349,7 @@
                 <div class="card-header">
                     <h2>Carrito de compras</h2>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table id="carrito_table" class="display" style="width:100%">
                         <thead>
                             <tr>
