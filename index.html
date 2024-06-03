@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>GameStore</title>
+    <style>
+        .navbar-brand img {
+            height: 70px; /* Ajusta la altura del logo */
+            width: auto;  /* Ajusta automáticamente el ancho para mantener la proporción */
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -34,6 +40,38 @@
                         <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="home"  href="#">Inicio</a></li>
                         <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="product" href="#">Productos</a></li>
                         <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="shoplist" href="#">Carrito</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="admin_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Administrador
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="admin_dropdown">
+                                <a class="dropdown-item disabled" href="#" >Mantenedores</a>
+                                <div class="dropdown-divider"></div>
+                                
+                                <!-- <a class="nav-link dropdown-toggle" href="#" id="user_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Usuario
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user_dropdown">
+                                    <a class="dropdown-item" href="#"  id="usuarios" >Agregar Usuario</a>
+                                    <a class="dropdown-item" href="#"  id="usuarios" >Listar Usuario</a>
+                                </div>
+                                <a class="nav-link dropdown-toggle" href="#" id="producto_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Producto
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="producto_dropdown">
+                                    <a class="dropdown-item" href="#"  id="usuarios" >Agregar Producto</a>
+                                    <a class="dropdown-item" href="#"  id="usuarios" >Listar Producto</a>
+                                </div> -->
+
+
+
+
+                                <a class="dropdown-item" href="#" onclick="mostrar(this)" id="productos" >Producto</a>
+                                
+                                <a class="dropdown-item" href="#" onclick="mostrar(this)" id="usuarios" >Usuario</a>
+                                
+                            </div>
+                        </li>
                         <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="login"  href="#">Login</a></li>
                         <li class="nav-item" ><a class="nav-link" onclick="mostrar(this)" id="contact" href="#">Registrar</a></li>
 
@@ -45,8 +83,9 @@
                                 
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">Configuración de perfil</a>
+                                <a id="rol_text" class="dropdown-item disabled" href="#" ></a>
                                 <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Configuración de perfil</a>
                                 <a class="dropdown-item" href="#" id="logout">Cerrar sesión</a>
                             </div>
                         </li>
@@ -60,7 +99,7 @@
     <main>
         <article class="container"  id="home_div">
             <div>
-                <h1 id="msje_bienvenido">Bienvenido a GameCity App</h1>
+                <h1 id="msje_bienvenido">Bienvenido a GameStore App</h1>
                 <h5><b>¡Estamos encantados de tenerte aquí!</b></h5>
                 <p id="msje_registrate">Registrate como cliente o inicia sesión y podrás obtener acceso a nuestra amplia gama de productos y servicios. </p>
 
@@ -68,48 +107,82 @@
         </article>
         <article id="products_div" class="container" style="display: none;">
             <h2>Productos </h2>
-            <div class="product-gallery">
-                <div class="product-item">
+            <div class="product-gallery" id="productos_list">
+                <!-- <div class="product-item">
                     <img src="assets/img/carcasa_iphone_6.jpg" alt="Producto 1">
                     <h3>Iphone 6 Case</h3>
                     <p>"phone case" para teléfono iphone</p>
                     <p>$ 5.000.-</p>
                     <button>Comprar</button>
-                </div>
+                </div> -->
                 
-                <div class="product-item">
-                    <img src="assets/img/thanos_imp_3d.jpg" alt="Producto 3">
-                    <h3>Thanos</h3>
-                    <p>Articulo impreso en 3D con filamento ABS.</p>
-                    <p>$ 9.990.-</p>
-                    <button>Comprar</button>
-                </div>
                 
-                <div class="product-item">
-                    <img src="assets/img/taladro.webp" alt="Producto 4">
-                    <h3>Taladro</h3>
-                    <p>Taladro percutor uso Hogar. Garantía 6 meses</p>
-                    <p>$ 2.990.-</p>
-                    <button>Comprar</button>
+            </div>
+        </article>
+        <article id="productos_div" class="container" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Productos</h2>
                 </div>
-                <div class="product-item">
-                    <img src="assets/img/soporte_telefono.jpg" alt="Producto 2">
-                    <h3>Soporte teléfono</h3>
-                    <p>Soporte impreso en 3D con filamento ABS.</p>
-                    <p>$ 14.990.-</p>
-                    <button>Comprar</button>
+                <div class="card-body">
+                    <table id="productos_adm_table" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Accion</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
+
                 </div>
-                <!-- Añade más productos según sea necesario -->
+                <!-- <div class="card-footer">
+
+                </div> -->
+            </div>
+        </article>
+        <article id="usuarios_div" class="container" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Usuarios</h2>
+                </div>
+                <div class="card-body">
+                    <table id="usuarios_table" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Accion</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
+
+                </div>
+                <!-- <div class="card-footer">
+
+                </div> -->
             </div>
         </article>
         
         <article id="user_form_div" class="container"  style="display: none;">
-            <h2>Registrate!</h2>
-            <div class="contact-form">
-                <h2>Formulario de Registro</h2>
 
+            <div class="card ">
+                <div class="card-header">
+                    <h2>Registrate!</h2>
+                    <h2 class="text-center">Formulario de Registro</h2>
 
-                <form class="row g-3">
+                </div>
+                <form class="row g-3" >
                     <div class="col-md-6">
                         <label for="nombres" class="form-label">Nombres</label>
                         <input type="text" class="form-control" id="nombres">
@@ -138,9 +211,10 @@
                         <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
                         <input type="date" class="form-control" id="fecha_nacimiento" >
                     </div>
-                   
-                    <hr>
-                    <h4>Dirección de despacho</h4><p>(Opcional)</p>
+                    <div class=" container card-header">
+                        <h4>Dirección de despacho</h4><p>(Opcional)</p>
+                        
+                    </div>
                     <div class="col-md-9">
                         <label for="direccion" class="form-label">Calle</label>
                         <input type="text" class="form-control" id="direccion" >
@@ -156,51 +230,87 @@
                             <option value="santiago">Santiago</option>
                         </select>
                     </div>
-                    <hr>
+                </form>
+                <div class="card-footer">
                     <div class="col-6">
                         <button type="button" onclick="registrarUsuario()" class="btn btn-success">Registrar</button>
                     </div>
                     <div class="col-6">
                         <button onclick="limpiarFormulario()" class="btn btn-outline-warning" >Limpiar Formulario</button>
                     </div>
-                </form>
+                </div>
             </div>
+
+
+
+
+
+
+
+
+            
+            
         </article>
         <article id="carrito_div" class="container"  style="display: none;">
-            <h2>Carrito de compras</h2>
+            <div class="card">
+                <div class="card-header">
+                    <h2>Carrito de compras</h2>
+                </div>
+                <div class="card-body">
+                    <table id="carrito_table" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Accion</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
+                    <h3 id="text_carrito" class="text-center" >Sin productos :(</h3>
+
+                </div>
+                <!-- <div class="card-footer">
+
+                </div> -->
+            </div>
+
+            
             <div class="">
-                <h2>Productos (dataTable)</h2>
-
-
+               
                
             </div>
         </article>
         <article id="login_div" class="container"  style="display: none;">
-            <h2>Inicia Sesión</h2>
-            <div class="container">
-                <form class="row g-3">
-                    <div class="col-md-6">
-                        <label for="username" class="form-label">Nombre de Usuario</label>
-                        <input type="text" class="form-control" id="username_login">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="pass" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="pass_login">
-                    </div>
-                    
-                    <br>
-                    <div class="col-md-6">
-                        <button type="button" onclick="accederUsuario()" class="btn btn-success">Acceder</button>
-                    </div>
-                    
-                </form>
-
-               
+            <div class="card">
+                <div class="card-header">
+                    <h2>Inicia Sesión</h2>
+                </div>
+                <div class="card-body">
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="username" class="form-label">Nombre de Usuario</label>
+                            <input type="text" class="form-control" id="username_login">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="pass" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="pass_login">
+                        </div>                       
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button type="button" onclick="accederUsuario()" class="btn btn-success">Acceder</button>
+                </div>
             </div>
+            
         </article>
     </main>
     <footer>
-        <p>Derechos de autor &copy; 2024 NosotrosPlay App</p>
+        <p>Derechos de autor &copy; 2024 GameStore App</p>
     </footer>
     <div id="loading">
         <div class="spinner"></div>
