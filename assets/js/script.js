@@ -2,6 +2,7 @@
 //Clase Usuario
 class Usuario {
     constructor(
+        id,
         nombres, 
         apellidos,
         correo, 
@@ -14,6 +15,7 @@ class Usuario {
         comuna
 
     ) {
+        this.id=id;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.username = username;
@@ -27,6 +29,26 @@ class Usuario {
     }
 }
 
+//Clase Usuario
+class Producto {
+    constructor(
+        id,
+        nombre, 
+        descripcion,
+        valor ,
+        img
+    ) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.valor = valor;
+        this.img = img;
+
+    
+    }
+}
+
+
 //clase Rol
 class Rol {
     constructor(id,descripcion){
@@ -38,9 +60,11 @@ class Rol {
 //usuarios.push(usuario);
 //usuarios.forEach(usuario => { console.log(usuario.username)})
 
+//USUARIOS
 var usuarios = [];
 
 let admin = new Usuario(
+    1,
     'Pablo', 
     'Garrido Cid',
     'pa.garrido.cid@gmail.com', 
@@ -54,6 +78,7 @@ let admin = new Usuario(
     ''
 );
 let usuario = new Usuario(
+    2,
     'Javier', 
     'Gonzalez',
     'j.gonzalez@gmail.com', 
@@ -66,6 +91,7 @@ let usuario = new Usuario(
     ''
 );
 let cliente = new Usuario(
+    3,
     'Paulina', 
     'Pinto',
     'p.pinto@gmail.com', 
@@ -83,7 +109,41 @@ usuarios.push(admin);
 usuarios.push(usuario);
 usuarios.push(cliente);
 
+//PRODUCTOS
 
+let productos = [];
+
+let iphone_6_case = new Producto(
+                1,
+                'Iphone 6 Case',
+                'phone case" para teléfono iphone',
+                "$ 5.000",
+                "carcasa_iphone_6.jpg");
+let thanos = new Producto(
+                2,
+                'Thanos',
+                'Articulo impreso en 3D con filamento ABS.',
+                "$ 9.000",
+                "thanos_imp_3d.jpg");
+let taladro = new Producto(
+                3,
+                'Taladro',
+                'Taladro percutor uso hogar marca TOTAL. Garantía 6 meses',
+                "$ 29.990",
+                "taladro.webp");
+let soporte = new Producto(
+                4,
+                'Soporte teléfono',
+                'Soporte impreso en 3D con filamento ABS.',
+                "$ 7.990",
+                "soporte_telefono.jpg");
+
+productos.push(iphone_6_case);
+productos.push(thanos);
+productos.push(taladro);
+productos.push(soporte);
+
+//ROLES
 var roles = [];
 
 let rol_adm = new Rol(1,'Administrador');
@@ -99,6 +159,12 @@ var usuario_log = new Usuario();
 
 
 
+var carrito = [];
+
+
+
+/////// SCRIPT JS
+
 $(document).ready(()=>{
 
     // usuarios.forEach(usuario=>{
@@ -108,31 +174,116 @@ $(document).ready(()=>{
     $('#product').css('display', 'none');
     $('#shoplist').css('display', 'none');
     $('#nav_user').css('display', 'none');
+    $('#admin_dropdown').css('display', 'none');
+
 
     $("#logout").click(()=>{
+        /** ESTO TIENE QUE CAMBIAR */
+
         // usuario_log = new Usuario();
-        // mostrar(document.getElementById('home'));
-        // mostrar_ocultarMenu('none');
-        // mostrar_ocultarLogin('');
-        // $("#msje_bienvenido").empty().text('Bienvenido a GameCity App');
-        location.reload();
+        mostrar(document.getElementById('home'));
+        mostrar_ocultarMenu('none');
+        mostrar_ocultarLogin('');
+        $("#msje_registrate").empty().text('Registrate como cliente o inicia sesión y podrás obtener acceso a nuestra amplia gama de productos y servicios. ');
+        $("#msje_bienvenido").empty().text('Bienvenido a GameStore App');
+        $("#admin_dropdown").css('display','none');
+        //location.reload();
 
     })
 
-
-
 })
 
+function llenarCarritoDT(productos) {
+    const $tableBody = $('#carrito_table tbody');
+    $tableBody.empty(); // Limpiar cualquier fila existente
+
+    if(productos.length >0){
+
+        $("#text_carrito").css('display','none');
+
+        productos.forEach(producto => {
+        
+            let btn = '<button onclick="quitarProductoCarrito('+producto.id+')" class="btn btn-outline-danger">Quitar</button> ';
+    
+            const $row = $(`
+                <tr>
+                    <td>${producto.nombre}</td>
+                    <td>${producto.descripcion}</td>
+                    <td>${producto.valor}</td>
+                    <td>${btn}</td>
+    
+                </tr>
+            `);
+            $tableBody.append($row);
+        });
+        return
+    }
+    $("#text_carrito").css('display','')
+
+    
+
+    // $('#carrito_table').DataTable(); // Inicializar DataTable
+}
+
+function eliminarObjPorId(lista, id) {
+    return lista.filter(obj => obj.id !== id);
+}
 
 
+function quitarProductoCarrito(id){
+    carrito = eliminarObjPorId(carrito,id);
+    llenarCarritoDT(carrito);
+}
+
+function obtenerProductos(){
+    const $prod_list = $('#productos_list');
 
 
+    $prod_list.empty();
+
+    productos.forEach(producto =>{
 
 
+        let funcion = 'addToCart(this)';
+        let msje = 'Agregar al carrito';
+
+        let clase = 'btn btn-info';
+
+        if(carrito.find(prod => prod.id == producto.id)){
+            //el producto existe en carrito y debemos cambiar la funcion
+            funcion = "mostrar(document.getElementById('shoplist'))";
+            clase = 'btn btn-outline-success';
+            msje = 'Ver carrito';
+        }
+
+        let btn = '<button id="'+producto.id+'" onclick="'+funcion+'" class="'+clase+'">'+msje+'</button>';
+
+        const $productItem = $(`
+                    <div class="product-item">
+                        <img src="assets/img/${producto.img}" alt="${producto.nombre}">
+                        <h3>${producto.nombre}</h3>
+                        <p>${producto.descripcion}</p>
+                        <p>${producto.valor}</p>
+                        ${btn}
+                    </div>
+                `);
+        $prod_list.append($productItem);
+    });
+}
+
+
+function addToCart(elemento){
+    let prod = productos.find(producto => producto.id == elemento.id)
+    carrito.push(prod);
+    llenarCarritoDT(carrito)
+    mostrar(document.getElementById('shoplist'));
+}   
 
 function mostrar(element){
     // Mostrar la pantalla de carga
     $('#loading').css('display', 'flex');
+
+    // obtenerProductos();
 
     // Simular un retardo para la carga (por ejemplo, 1 segundo)
     setTimeout(function() {
@@ -142,6 +293,9 @@ function mostrar(element){
         $('#user_form_div').css('display', 'none');
         $('#carrito_div').css('display', 'none');
         $('#login_div').css('display', 'none');
+        $('#productos_div').css('display', 'none');
+        $('#usuarios_div').css('display', 'none');
+
 
 
         
@@ -152,6 +306,7 @@ function mostrar(element){
                 break;
             case 'product':
                 $('#products_div').css('display','block');
+                obtenerProductos();
                 break;
             case 'contact':
                 $('#user_form_div').css('display','block');
@@ -161,6 +316,12 @@ function mostrar(element){
                 break;
             case 'login':
                 $('#login_div').css('display','block');
+                break;
+            case 'productos':
+                $("#productos_div").css('display','block');
+                break;
+            case 'usuarios':
+                $("#usuarios_div").css('display','block');
                 break;
         }
 
@@ -174,20 +335,20 @@ function mostrar(element){
 
 function registrarUsuario() {
     // Obtener los valores de los campos del formulario
-    let nombres = document.getElementById("nombres").value.trim();
-    let apellidos = document.getElementById("apellidos").value.trim();
-    let username = document.getElementById("username").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let password = document.getElementById("pass").value.trim();
-    let repetirPassword = document.getElementById("repet_pass").value.trim();
-    let fechaNacimiento = document.getElementById("fecha_nacimiento").value.trim();
-    let direccion = document.getElementById("direccion").value.trim();
-    let numeracion = document.getElementById("numeracion").value.trim();
-    let comuna = document.getElementById("comuna").value;
+    let nombres = $("#nombres").val().trim();
+    let apellidos = $("#apellidos").val().trim();
+    let username = $("#username").val().trim();
+    let email = $("#email").val().trim();
+    let password = $("#pass").val().trim();
+    let repetirPassword = $("#repet_pass").val().trim();
+    let fechaNacimiento = $("#fecha_nacimiento").val().trim();
+    let direccion = $("#direccion").val().trim();
+    let numeracion = $("#numeracion").val().trim();
+    let comuna = $("#comuna").val();
 
     // Realizar las validaciones
     if (nombres === "" || apellidos === "" || username === "" || email === "" || password === "" || repetirPassword === "" || fechaNacimiento === "") {
-        alert("Por favor, completa todos los campos obligatorios.");
+        alert("Por favor, completa todos los campos obligatorios.(nombres, apellidos, username, email, contraseña, fecha nacimiento");
         return;
     }
 
@@ -219,8 +380,25 @@ function registrarUsuario() {
         return;
     }
 
-    alert("Usuario"+nombres+' '+apellidos+" registrado correctamente.");
+    let nuevo_usuario = new Usuario(
+        usuarios.length+1,
+        nombres,
+        apellidos,
+        email,
+        3,
+        username,
+        password,
+        fechaNacimiento,
+        direccion,
+        numeracion,
+        comuna        
+    )
+
+    usuarios.push(nuevo_usuario);
+
+    alert("Usuario: "+nuevo_usuario.nombres+' '+nuevo_usuario.apellidos+". registrado correctamente.");
     limpiarFormulario();
+    mostrar(document.getElementById('login'));
 }
 function validateEmail(email) {
     let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -264,12 +442,11 @@ function accederUsuario(){
     let usuario = usuarios.find(usuario => usuario.username == username);
 
     if(!usuario){
-        console.log('no se encontro usuario');
+        alert('no se encontro usuario');
         return
     }
         
     if(usuario.pass == pass){
-        console.log('login')
         usuario_log = usuario;
         mostrar_ocultarMenu('');
         mostrar(document.getElementById('home'));
@@ -279,13 +456,21 @@ function accederUsuario(){
 
         $("#msje_bienvenido").empty().text('Bienvenid@ '+usuario.nombres+' '+usuario.apellidos+'!')
 
+        let rol = roles.find(rol => rol.id == usuario.id_rol);
+        $("#rol_text").empty().text('Eres: '+rol.descripcion);
+
+        if(rol.id == 1|| rol.id == 2){
+            $("#admin_dropdown").css('display','');
+        }
+        
+
         let btn_ofertas = $("<button>")
                                 .addClass('btn btn-outline-info')
                                 .attr('id','btn_mostrar_ofertas')
                                 .text('Ver ofertas')
                                 // .click("mostrar(document.getElementById('product'))")
 
-        $("#msje_registrate").empty().append('Puedes ver tus ofertas como cliente: ').append(btn_ofertas);
+        $("#msje_registrate").empty().append('Puedes ver tus ofertas como '+rol.descripcion+': ').append(btn_ofertas);
 
         $("#btn_mostrar_ofertas").click(()=>{
             mostrar(document.getElementById('product'));
@@ -293,9 +478,11 @@ function accederUsuario(){
 
         $("#userDropdown").html(usuario.nombres+' '+usuario.apellidos);
 
+        obtenerProductos();
+
         return
     }
-    console.log('error_pass')
+    alert('Contraseña o nombre de usuario incorrecto!.')
 
 
 }
@@ -307,6 +494,7 @@ function mostrar_ocultarMenu(estilo){
     $('#product').css('display', estilo);
     $('#shoplist').css('display', estilo);
     $('#nav_user').css('display', estilo);
+
 }
 
 
